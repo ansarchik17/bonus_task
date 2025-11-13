@@ -3,9 +3,9 @@ package org.example;
 import java.util.Objects;
 
 public class Edge implements Comparable<Edge> {
-    public final int u;  // source vertex
-    public final int v;  // destination vertex
-    public final int w;  // weight
+    public final int u;
+    public final int v;
+    public final int w;
 
     public Edge(int u, int v, int w) {
         this.u = u;

@@ -3,11 +3,11 @@ package org.example;
 import java.util.*;
 
 public class Graph {
-    private final int V;                    // Number of vertices
-    private final List<Edge> allEdges;      // All original edges
-    private List<Edge> mst;                 // Current MST edges
-    private DisjointSet uf;                 // Union-Find for connectivity
-    private Edge removedEdge;               // Track the removed edge
+    private final int V;
+    private final List<Edge> allEdges;
+    private List<Edge> mst;
+    private DisjointSet uf;
+    private Edge removedEdge;
 
     public Graph(int V, List<Edge> edges) {
         this.V = V;
@@ -17,20 +17,14 @@ public class Graph {
         this.removedEdge = null;
     }
 
-    /**
-     * Builds MST using Kruskal's algorithm.
-     */
     public List<Edge> buildMST() {
-        // Reset MST and Union-Find
         mst.clear();
         this.uf = new DisjointSet(V);
         this.removedEdge = null;
 
-        // Sort edges by weight
         List<Edge> sortedEdges = new ArrayList<>(allEdges);
         Collections.sort(sortedEdges);
 
-        // Build MST
         for (Edge edge : sortedEdges) {
             if (uf.union(edge.u, edge.v)) {
                 mst.add(edge);
@@ -41,9 +35,6 @@ public class Graph {
         return new ArrayList<>(mst);
     }
 
-    /**
-     * Displays current MST.
-     */
     public void displayMST(String title) {
         System.out.println(title);
         int totalWeight = 0;
@@ -55,9 +46,6 @@ public class Graph {
         System.out.println("  Number of edges: " + mst.size() + "\n");
     }
 
-    /**
-     * Removes edge from MST by index and returns it.
-     */
     public Edge removeEdge(int index) {
         if (index < 0 || index >= mst.size()) {
             throw new IllegalArgumentException("Invalid edge index: " + index);
@@ -67,11 +55,7 @@ public class Graph {
         return removedEdge;
     }
 
-    /**
-     * Finds two components after edge removal.
-     */
     public Set<Integer>[] findComponents(int u, int v) {
-        // Build adjacency list from current MST
         List<List<Integer>> adj = new ArrayList<>();
         for (int i = 0; i < V; i++) {
             adj.add(new ArrayList<>());
@@ -85,10 +69,8 @@ public class Graph {
         Set<Integer> component1 = new HashSet<>();
         Set<Integer> component2 = new HashSet<>();
 
-        // Perform DFS from node u
         dfs(adj, u, visited, component1);
 
-        // Find first unvisited node for second component
         int startNode2 = -1;
         for (int i = 0; i < V; i++) {
             if (!visited[i]) {
@@ -127,10 +109,6 @@ public class Graph {
         }
     }
 
-    /**
-     * Finds the minimum weight edge that reconnects the two components.
-     * Excludes edges that are in current MST and the removed edge.
-     */
     public Edge findReplacementEdge(Set<Integer>[] components) {
         Set<Integer> comp1 = components[0];
         Set<Integer> comp2 = components[1];
@@ -140,27 +118,22 @@ public class Graph {
 
         System.out.println("Looking for replacement edges...");
 
-        // Check all original edges
         for (Edge edge : allEdges) {
-            // Skip edges that are in current MST
             if (isEdgeInMST(edge)) {
                 System.out.println("  Skipping (in MST): " + edge);
                 continue;
             }
 
-            // Skip the removed edge specifically
             if (removedEdge != null && isSameEdge(edge, removedEdge)) {
                 System.out.println("  Skipping (removed): " + edge);
                 continue;
             }
 
-            // Check if edge connects the two components
             boolean uInComp1 = comp1.contains(edge.u);
             boolean vInComp1 = comp1.contains(edge.v);
             boolean uInComp2 = comp2.contains(edge.u);
             boolean vInComp2 = comp2.contains(edge.v);
 
-            // Edge connects components if one endpoint in comp1 and other in comp2
             boolean connectsComponents = (uInComp1 && vInComp2) || (uInComp2 && vInComp1);
 
             if (connectsComponents) {
@@ -177,9 +150,6 @@ public class Graph {
         return bestEdge;
     }
 
-    /**
-     * Checks if an edge is in the current MST
-     */
     private boolean isEdgeInMST(Edge edge) {
         for (Edge mstEdge : mst) {
             if (isSameEdge(edge, mstEdge)) {
@@ -189,17 +159,11 @@ public class Graph {
         return false;
     }
 
-    /**
-     * Checks if two edges are the same (undirected)
-     */
     private boolean isSameEdge(Edge e1, Edge e2) {
         return (e1.u == e2.u && e1.v == e2.v && e1.w == e2.w) ||
                 (e1.u == e2.v && e1.v == e2.u && e1.w == e2.w);
     }
 
-    /**
-     * Adds a new edge to the MST.
-     */
     public void addEdgeToMST(Edge edge) {
         if (edge != null) {
             mst.add(edge);
