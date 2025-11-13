@@ -1,1 +1,1 @@
-Minimum Spanning Tree (MST) - Edge Removal and Reconnection Algorithm
+#Minimum Spanning Tree (MST) - Edge Removal and Reconnection Algorithm
