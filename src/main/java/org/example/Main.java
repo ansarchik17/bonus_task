@@ -4,10 +4,8 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("=".repeat(50));
-        System.out.println("  DAA BONUS TASK: EDGE REMOVAL FROM MST");
-        System.out.println("=".repeat(50) + "\n");
-
+        System.out.println("!Design and analysis of algorithms bonus task");
+        System.out.println();
         List<Edge> edges = Arrays.asList(
                 new Edge(0, 1, 2),
                 new Edge(0, 3, 6),
@@ -21,7 +19,7 @@ public class Main {
         Graph graph = new Graph(5, edges);
 
         List<Edge> mst = graph.buildMST();
-        graph.displayMST("INITIAL MST:");
+        graph.displayMST("Initial MST:");
 
         int edgeToRemoveIndex = -1;
         for (int i = 0; i < mst.size(); i++) {
@@ -39,19 +37,17 @@ public class Main {
         Edge removedEdge = graph.removeEdge(edgeToRemoveIndex);
 
         Set<Integer>[] components = graph.findComponents(removedEdge.u, removedEdge.v);
-        System.out.println("COMPONENT 1: " + components[0]);
-        System.out.println("COMPONENT 2: " + components[1] + "\n");
+        System.out.println("Component 1: " + components[0]);
+        System.out.println("Component 2: " + components[1] + "\n");
 
         Edge replacement = graph.findReplacementEdge(components);
         if (replacement != null) {
             graph.addEdgeToMST(replacement);
-            graph.displayMST("NEW MST AFTER RECONNECTION:");
+            graph.displayMST("New MST after reconnection:");
         } else {
             System.out.println("No valid replacement edge found.");
         }
 
-        System.out.println("=".repeat(50));
-        System.out.println("  TASK COMPLETED");
-        System.out.println("=".repeat(50));
+        System.out.println("Task completed well!");
     }
 }

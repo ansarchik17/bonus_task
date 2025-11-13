@@ -116,16 +116,16 @@ public class Graph {
         Edge bestEdge = null;
         int minWeight = Integer.MAX_VALUE;
 
-        System.out.println("Looking for replacement edges...");
+        System.out.println("Looking for replacement edges.......");
 
         for (Edge edge : allEdges) {
             if (isEdgeInMST(edge)) {
-                System.out.println("  Skipping (in MST): " + edge);
+                System.out.println("Skipping (in MST): " + edge);
                 continue;
             }
 
             if (removedEdge != null && isSameEdge(edge, removedEdge)) {
-                System.out.println("  Skipping (removed): " + edge);
+                System.out.println("Skipping (removed): " + edge);
                 continue;
             }
 
@@ -141,7 +141,7 @@ public class Graph {
                 if (edge.w < minWeight) {
                     minWeight = edge.w;
                     bestEdge = edge;
-                    System.out.println("    -> New best candidate!");
+                    System.out.println("    New best candidate!");
                 }
             }
         }
